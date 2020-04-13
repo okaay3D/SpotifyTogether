@@ -113,3 +113,5 @@ temp/
 
 # main.js is the result of compiling main.ts and is therefore not needed in git
 main.js
+
+spotify.json
