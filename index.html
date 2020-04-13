@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+  <title>Spotify Together</title>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <style>
+    /*
+        CSS
+      */
+
+    body {
+      padding-top: 10px;
+      background: #1e1e1e;
+      color: #fff;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+
+    <!--
+      <h1>Spotify Together Web</h1>
+      <br>
+      -->
+
+    <div class="row">
+      <div class="col-8">
+        <button id="skip" class="btn btn-primary">Skip</button>
+        <button id="prev" class="btn btn-primary">Prev</button>
+
+        <button id="pause" class="btn btn-primary">Pause</button>
+        <button id="resume" class="btn btn-primary">Resume</button>
+
+        <button id="play" class="btn btn-primary">Play</button>
+        <button id="playplaylist" class="btn btn-primary">Play Playlist</button>
+
+        <button id="syncsong" class="btn btn-primary">Sync Song</button>
+
+        <br>
+        <hr>
+
+        <input type="text" id="play_field_field" class="form-control" value="spotify:track:5SYHMGmqS3cOOKuCarASBT">
+        <br>
+        <button id="play_field" class="btn btn-primary">Play Field</button>
+
+        <br>
+        <hr>
+
+        <input type="text" id="playplaylist_field_field" class="form-control"
+          value="spotify:playlist:6vZQdEvLJ87qeAva5b5OxA">
+        <br>
+        <button id="playplaylist_field" class="btn btn-primary">Play Playlist Field</button>
+
+        <br>
+        <hr>
+
+        <button id="vol0" class="btn btn-primary">Volume 0%</button>
+        <button id="vol20" class="btn btn-primary">Volume 20%</button>
+        <button id="vol40" class="btn btn-primary">Volume 40%</button>
+        <button id="vol60" class="btn btn-primary">Volume 60%</button>
+        <button id="vol80" class="btn btn-primary">Volume 80%</button>
+        <button id="vol100" class="btn btn-primary">Volume 100%</button>
+
+        <br>
+        <hr>
+
+        <div class="row">
+          <div class="col-8">
+            <input type="text" class="form-control" placeholder="We will rock you" id="search_input">
+          </div>
+          <div class="col-2">
+            <button class="btn btn-primary" id="search_btn">Search</button>
+          </div>
+          <div class="col-2">
+            <button class="btn btn-primary" id="search_hide_btn">Hide</button>
+          </div>
+        </div>
+        <ul id="search-results">
+
+        </ul>
+      </div>
+      <div class="col">
+        <img src="https://placehold.it/300" alt="artwork" id="album-cover" width="300">
+        <p id="track-info">Place &ndash; Holder</p>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="dist/bundle.js"></script>
+
+</body>
+
+</html>
