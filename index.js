@@ -9,13 +9,15 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
+var spotifyCredentials = require('./spotify.json');
+
 // ########## NODE SERVER AND SPOTIFY API SETTINGS ##########
 
 const port = process.env.PORT || 3000;
 
-const client_id = ''; // Your client id
-const client_secret = ''; // Your secret
-const redirect_uri = ''; // Your redirect uri
+const client_id = spotifyCredentials.client_id; // Your client id
+const client_secret = spotifyCredentials.client_secret; // Your secret
+const redirect_uri = spotifyCredentials.redirect_uri; // Your redirect uri
 
 // ########## Create Random String ##########
 var generateRandomString = function(length) {
