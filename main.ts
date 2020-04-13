@@ -10,6 +10,7 @@ var socket = io(SOCKETIO_ADDR);
 var spotifyApi = new Spotify();
 
 let access_token = window.location.hash.split('=')[1];
+let refresh_token = window.location.hash.split('=')[2];
 spotifyApi.setAccessToken(access_token);
 
 function getFormattedDate(): string {
@@ -167,6 +168,23 @@ document.getElementById("search_btn").onclick = function() {
 
 document.getElementById("search_hide_btn").onclick = function() {
   document.getElementById("search-results").innerHTML = "";
+}
+
+document.getElementById("refresh").onclick = function() {
+  refreshToken();
+}
+
+function refreshToken() {
+  let req = new XMLHttpRequest();
+  
+  req.onreadystatechange = () => {
+    if (req.readyState === 4 && req.status === 200) {
+      console.log(req.response);
+    }
+  }
+
+  req.open("POST", "/refresh_token");
+  req.send("refresh_token=" + refresh_token);
 }
 // http://jsfiddle.net/JMPerez/62wafrm7/
 // https://developer.spotify.com/documentation/web-api/libraries/
