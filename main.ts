@@ -183,8 +183,8 @@ function refreshToken() {
     }
   }
 
-  req.open("POST", "/refresh_token");
-  req.send("refresh_token=" + refresh_token);
+  req.open("GET", "/refresh_token?refresh_token=" + refresh_token);
+  req.send();
 }
 // http://jsfiddle.net/JMPerez/62wafrm7/
 // https://developer.spotify.com/documentation/web-api/libraries/
