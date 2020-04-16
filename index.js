@@ -175,7 +175,7 @@ io.on('connection', function(socket){
   console.log("user connected!");
   socket.on('send', function(msg){
     console.log(msg);
-    io.sockets.emit('receive', msg);
+    io.sockets.in(socket.rooms[0]).emit('receive', msg);
   });
 
   socket.on('joinroom', function(msg){
