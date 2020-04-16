@@ -20,5 +20,8 @@
     "start": "node index.js",
     "tscompile": "tsc",
     "dev": "npm-run-all tscompile bundle start"
+  },
+  "devDependencies": {
+    "@types/socket.io-client": "^1.4.32"
   }
 }
