@@ -11,6 +11,7 @@ var spotifyApi = new Spotify();
 
 let access_token = window.location.hash.split('=')[1];
 let refresh_token = window.location.hash.split('=')[2];
+let room = window.location.search.split('=')[1];
 
 console.log("access: " + access_token);
 console.log("room: " + room);
