@@ -64,7 +64,7 @@ app.get('/login', function(req, res) {
   scope = newscope.join(" ");
 
   res.redirect('https://accounts.spotify.com/authorize?' +
-    stringify({
+    JSON.stringify({
       response_type: 'code',
       client_id: client_id,
       scope: scope,
@@ -85,7 +85,7 @@ app.get('/callback', function(req, res) {
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
-      stringify({
+    JSON.stringify({
         error: 'state_mismatch'
       }));
   } else {
@@ -122,7 +122,7 @@ app.get('/callback', function(req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect('/#' +
-          stringify({
+        JSON.stringify({
             access_token: access_token,
             refresh_token: refresh_token
           }));
