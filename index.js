@@ -1,7 +1,13 @@
 // ########## Requires ##########
+var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+
+var request = require('request');
+var cors = require('cors');
+var querystring = require('querystring');
+var cookieParser = require('cookie-parser');
 
 var spotifyCredentials = require('./spotify.json');
 
@@ -169,6 +175,7 @@ io.on('connection', function(socket){
     console.log(msg);
     io.sockets.emit('receive', msg);
   });
+  
   socket.on('joinroom', function(msg){
     console.log(msg);
     socket.join(msg.data);
