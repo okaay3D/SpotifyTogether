@@ -177,6 +177,12 @@ io.on('connection', function(socket){
     console.log(msg);
     io.sockets.emit('receive', msg);
   });
+
+  socket.on('joinroom', function(msg){
+    console.log(msg);
+    socket.join(msg.data);
+    io.sockets.in(socket.rooms[0]).emit('receive', msg);
+  });
 });
 
 http.listen(port, function(){
