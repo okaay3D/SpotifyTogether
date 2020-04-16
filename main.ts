@@ -10,6 +10,11 @@ var socket = io(SOCKETIO_ADDR);
 var spotifyApi = new Spotify();
 
 let access_token = window.location.hash.split('=')[1];
+let room = window.location.search.split('=')[1];
+
+console.log("access: " + access_token);
+console.log("room: " + room);
+
 spotifyApi.setAccessToken(access_token);
 
 function getFormattedDate(): string {
@@ -36,6 +41,13 @@ function playTrack(uri: string): void {
 socket.emit('send', 
   { 
     action: "test",
+    data: getFormattedDate() 
+  }
+);
+
+socket.emit('joinroom', 
+  { 
+    action: "id",
     data: getFormattedDate() 
   }
 );
