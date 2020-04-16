@@ -31,7 +31,7 @@ var generateRandomString = function(length) {
 };
 
 var stateKey = 'spotify_auth_state';
-app.use(static(__dirname + '/'))
+app.use(express.static(__dirname + '/'))
    .use(cors())
    .use(cookieParser());
 
@@ -64,7 +64,7 @@ app.get('/login', function(req, res) {
   scope = newscope.join(" ");
 
   res.redirect('https://accounts.spotify.com/authorize?' +
-    stringify({
+    querystring.stringify({
       response_type: 'code',
       client_id: client_id,
       scope: scope,
@@ -85,7 +85,7 @@ app.get('/callback', function(req, res) {
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
-      stringify({
+      querystring.stringify({
         error: 'state_mismatch'
       }));
   } else {
@@ -103,7 +103,7 @@ app.get('/callback', function(req, res) {
       json: true
     };
 
-    post(authOptions, function(error, response, body) {
+    request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
 
         var access_token = body.access_token,
@@ -116,19 +116,19 @@ app.get('/callback', function(req, res) {
         };
 
         // use the access token to access the Spotify Web API
-        get(options, function(error, response, body) {
+        request.get(options, function(error, response, body) {
           //console.log(body);
         });
 
         // we can also pass the token to the browser to make requests from there
         res.redirect('/#' +
-          stringify({
+          querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
           }));
       } else {
         res.redirect('/#' +
-          stringify({
+          querystring.stringify({
             error: 'invalid_token'
           }));
       }
@@ -150,12 +150,14 @@ app.get('/refresh_token', function(req, res) {
     json: true
   };
 
-  post(authOptions, function(error, response, body) {
+  request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token;
       res.send({
         'access_token': access_token
       });
+    } else {
+      console.log("Error:", error, response.statusCode);
     }
   });
 });
@@ -174,12 +176,6 @@ io.on('connection', function(socket){
   socket.on('send', function(msg){
     console.log(msg);
     io.sockets.emit('receive', msg);
-  });
-  
-  socket.on('joinroom', function(msg){
-    console.log(msg);
-    socket.join(msg.data);
-    io.sockets.in(socket.rooms[0]).emit('receive', msg);
   });
 });
 
