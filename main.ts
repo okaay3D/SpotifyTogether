@@ -49,7 +49,7 @@ socket.emit('send',
 socket.emit('joinroom', 
   { 
     action: "id",
-    data: getFormattedDate() 
+    data: room 
   }
 );
 
