@@ -10,6 +10,8 @@ import { stringify } from 'querystring';
 import cookieParser from 'cookie-parser';
 import * as spotifyCredentials from './spotify.json';
 
+var spotifyCredentials = require('./spotify.json');
+
 // ########## NODE SERVER AND SPOTIFY API SETTINGS ##########
 
 const port = process.env.PORT || 3000;
