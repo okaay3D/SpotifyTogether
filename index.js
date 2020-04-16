@@ -31,7 +31,7 @@ var generateRandomString = function(length) {
 };
 
 var stateKey = 'spotify_auth_state';
-app.use(static(__dirname + '/'))
+app.use(express.static(__dirname + '/'))
    .use(cors())
    .use(cookieParser());
 
@@ -175,7 +175,7 @@ io.on('connection', function(socket){
     console.log(msg);
     io.sockets.emit('receive', msg);
   });
-  
+
   socket.on('joinroom', function(msg){
     console.log(msg);
     socket.join(msg.data);
