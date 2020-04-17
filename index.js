@@ -175,13 +175,13 @@ io.on('connection', function(socket){
   console.log("user connected!");
   socket.on('send', function(msg){
     console.log(msg);
-    io.sockets.in(socket.rooms[0]).emit('receive', msg);
+    io.sockets.in(socket.rooms[Object.keys(socket.rooms)[0]]).emit('receive', msg);
   });
 
   socket.on('joinroom', function(msg){
     console.log(msg);
     socket.join(msg.data);
-    io.sockets.in(socket.rooms[0]).emit('receive', msg);
+    io.sockets.in(socket.rooms[Object.keys(socket.rooms)[0]]).emit('receive', msg);
   });
 });
 
