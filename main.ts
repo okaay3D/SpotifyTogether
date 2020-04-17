@@ -133,10 +133,6 @@ document.getElementById("resume").onclick = function() {
   spotifyApi.play();
 }
 
-document.getElementById("play").onclick = function() {
-  socket.emit('send', { action: "playplaylist", data: "spotify:track:6hjck7ERXicpsW51UkdHCA"});
-}
-
 document.getElementById("playplaylist").onclick = function() {
   socket.emit('send', { action: "playplaylist", data: "spotify:playlist:6vZQdEvLJ87qeAva5b5OxA"});
 }
@@ -180,10 +176,6 @@ document.getElementById("search_btn").onclick = function() {
 
 document.getElementById("search_hide_btn").onclick = function() {
   document.getElementById("search-results").innerHTML = "";
-}
-
-document.getElementById("refresh").onclick = function() {
-  refreshToken();
 }
 
 function refreshToken() {
