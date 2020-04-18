@@ -20,7 +20,7 @@ if (params.get('access_token') && params.get('refresh_token')) {
   setCookie('refresh_token', params.get('refresh_token'), 24*60*60*1000);
 } else {
   if (getCookie('access_token') === "" || getCookie('refresh_token') === "") {
-    window.location.href = window.location.host + '/login';
+    window.location.assign('login');
   }
 }
 
