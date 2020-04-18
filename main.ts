@@ -1,22 +1,36 @@
 import io from "socket.io-client";
 import Spotify from 'spotify-web-api-js';
 
-// ########## SOCKET IO ADRESSE ##########
-const SOCKETIO_ADDR = "http://localhost:3000"
-
 
 // ########## Spotify Connect ##########
-var socket = io(SOCKETIO_ADDR);
+var socket = io();
 var spotifyApi = new Spotify();
 
-let access_token = window.location.hash.split('=')[1];
-let refresh_token = window.location.hash.split('=')[2];
-let room = window.location.search.split('=')[1];
+// let access_token = window.location.hash.split('=')[1];
+// let refresh_token = window.location.hash.split('=')[2];
+// let room = window.location.search.split('=')[1];
 
-console.log("access: " + access_token);
-console.log("room: " + room);
+// console.log("access: " + access_token);
+// console.log("room: " + room);
 
-spotifyApi.setAccessToken(access_token);
+let params = new URLSearchParams(window.location.search);
+
+if (params.get('room')) {
+  setCookie('room', params.get('room'), 24*60*60*1000);
+} else if (getCookie('room') === "") {
+  setCookie('room', '' + getRandomInt(1, 3000000), 24*60*60*1000);
+}
+
+if (params.get('access_token') && params.get('refresh_token')) {
+  setCookie('access_token', params.get('access_token'), 3600*1000);
+  setCookie('refresh_token', params.get('refresh_token'), 24*60*60*1000);
+} else {
+  if (getCookie('access_token') === "" || getCookie('refresh_token') === "") {
+    window.location.assign('login');
+  }
+}
+
+spotifyApi.setAccessToken(getCookie('access_token'));
 
 function getFormattedDate(): string {
   var date = new Date();
@@ -49,7 +63,7 @@ socket.emit('send',
 socket.emit('joinroom', 
   { 
     action: "id",
-    data: room 
+    data: getCookie('room') 
   }
 );
 
@@ -187,9 +201,60 @@ function refreshToken() {
     }
   }
 
-  req.open("GET", "/refresh_token?refresh_token=" + refresh_token);
+  req.open("GET", "/refresh_token?refresh_token=" + getCookie('refresh_token'));
   req.send();
 }
+
+/**
+ * 
+ * @param cname Name of the cookie to set
+ * @param cvalue Value to store in the cookie
+ * @param exmillis TTL in milliseconds
+ */
+
+function setCookie(cname: string, cvalue: string, exmillis: number) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exmillis));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+/**
+ * 
+ * @param cname Name of the cookie to get
+ */
+
+function getCookie(cname: string) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ * 
+ * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+ */
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // http://jsfiddle.net/JMPerez/62wafrm7/
 // https://developer.spotify.com/documentation/web-api/libraries/
 // https://github.com/JMPerez/spotify-web-api-js
