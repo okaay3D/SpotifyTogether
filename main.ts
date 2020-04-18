@@ -15,6 +15,12 @@ var spotifyApi = new Spotify();
 
 let params = new URLSearchParams(window.location.search);
 
+if (params.get('room')) {
+  setCookie('room', params.get('room'), 24*60*60*1000);
+} else if (getCookie('room') === "") {
+  setCookie('room', uuidv4(), 24*60*60*1000);
+}
+
 if (params.get('access_token') && params.get('refresh_token')) {
   setCookie('access_token', params.get('access_token'), 3600*1000);
   setCookie('refresh_token', params.get('refresh_token'), 24*60*60*1000);
@@ -22,10 +28,6 @@ if (params.get('access_token') && params.get('refresh_token')) {
   if (getCookie('access_token') === "" || getCookie('refresh_token') === "") {
     window.location.assign('login');
   }
-}
-
-if (params.get('room')) {
-  setCookie('room', params.get('room'), 24*60*60*1000);
 }
 
 spotifyApi.setAccessToken(getCookie('access_token'));
@@ -236,6 +238,17 @@ function getCookie(cname: string) {
     }
   }
   return "";
+}
+
+/**
+ * Source: https://stackoverflow.com/a/2117523
+ */
+
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
 
 // http://jsfiddle.net/JMPerez/62wafrm7/
