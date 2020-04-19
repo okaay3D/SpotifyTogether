@@ -196,6 +196,10 @@ document.getElementById("search_hide_btn").onclick = function() {
   document.getElementById("search-results").innerHTML = "";
 }
 
+document.getElementById("copy").onclick = function() {
+  copy(window.location.host + '/?room=' + getCookie('room'));
+}
+
 function refreshToken() {
   let req = new XMLHttpRequest();
   
