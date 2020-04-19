@@ -15,6 +15,10 @@ var spotifyApi = new Spotify();
 
 let params = new URLSearchParams(window.location.search);
 
+if (params.get('newroom')) {
+  setCookie('room', "", -1);
+}
+
 if (params.get('room')) {
   setCookie('room', params.get('room'), 24*60*60*1000);
 } else if (getCookie('room') === "") {
