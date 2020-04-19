@@ -6,13 +6,6 @@ import Spotify from 'spotify-web-api-js';
 var socket = io();
 var spotifyApi = new Spotify();
 
-// let access_token = window.location.hash.split('=')[1];
-// let refresh_token = window.location.hash.split('=')[2];
-// let room = window.location.search.split('=')[1];
-
-// console.log("access: " + access_token);
-// console.log("room: " + room);
-
 let params = new URLSearchParams(window.location.search);
 
 if (params.get('newroom')) {
@@ -201,13 +194,15 @@ function refreshToken() {
   
   req.onreadystatechange = () => {
     if (req.readyState === 4 && req.status === 200) {
-      console.log(req.response);
+      setCookie('access_token', JSON.parse(req.response).access_token, 3600*1000);
     }
   }
 
   req.open("GET", "/refresh_token?refresh_token=" + getCookie('refresh_token'));
   req.send();
 }
+
+setInterval(refreshToken, 15*60*1000);
 
 /**
  * 
